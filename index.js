@@ -17,12 +17,12 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function(req, res){
-    res.send('Hello World');
+    //res.send('Hello World');
     tasks = ['hielo'];
     completed = ['test'];
-    res.render('index', {tasks: tasks}); //add completed variable to ejs ex {a:a, b:b}
+    res.render('index'); //add completed variable to ejs ex {a:a, b:b}
     //return something to home page
-    res.render('index', {tasks: tasks, completed: completed}); //add completed variable to ejs ex {a:a, b:b}
+    //res.render('index', {tasks: tasks, completed: completed}); //add completed variable to ejs ex {a:a, b:b}
 });
 
 //server setup
