@@ -4,6 +4,8 @@ var express = require('express');
 var bodyParser = require("body-parser");
 //require node-fetch
 var fetch = require('node-fetch');
+//requie request
+var request = require('request');
 //create express object, call express
 var app = express();
 //get port information
@@ -15,16 +17,33 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 //tell app to use Body parser
 app.use(bodyParser.urlencoded({extended: true}));
-
+var call;
 app.get('/', function(req, res){
-    //res.send('Hello World');
-    tasks = ['hielo'];
-    completed = ['test'];
-    res.render('index'); //add completed variable to ejs ex {a:a, b:b}
-    //return something to home page
-    //res.render('index', {tasks: tasks, completed: completed}); //add completed variable to ejs ex {a:a, b:b}
+    request('http://xkcd.com/info.0.json', function (error, response, body) {
+    call = JSON.parse(body);
+    var day = call.day;
+    var month = call.month;
+    var year = call.year;
+    var title = call.title
+    var alt = call.alt;
+    var image = call.img;
+    res.render('index', {day:day, month:month, year:year, title:title, alt:alt, image:image});
+});
 });
 
+app.get('/comic', function(req, res){
+    num = Math.floor(Math.random() * 2372); 
+    request('http://xkcd.com/'+num+'/info.0.json', function (error, response, body) {    
+    call = JSON.parse(body);
+    var day = call.day;
+    var month = call.month;
+    var year = call.year;
+    var title = call.title
+    var alt = call.alt;
+    var image = call.img;
+    res.render('comic', {day:day, month:month, year:year, title:title, alt:alt, image:image});
+});
+});
 //server setup
 app.listen(port, function(){
     console.log('Listening on ' + port)
